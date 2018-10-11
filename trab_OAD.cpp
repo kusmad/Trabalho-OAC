@@ -14,11 +14,11 @@ void menu(){
 }
 
 struct dados{
-    int id=0;
+    int id;
     string produto;
     char genero;
-    char tamanho;
-    bool status;
+    string tamanho;
+    bool status=true;
 
 };
 
@@ -27,28 +27,23 @@ void incluir(list<dados> &lista){
 
     dados aux;
     cout << "Digite o nome do produto: ";
-    cin >> aux.produto;
-    cin.ignore();
+	cin.ignore();
+    getline(cin,aux.produto);
     cout << "Digite o genero (Masculino (M) / Feminino (F)): ";
     cin >> aux.genero;
-    cin.ignore();
     cout << "Digite o tamanho da peca (PP, P, M, G, GG): ";
     cin >> aux.tamanho;
-    cin.ignore();
 
-    aux.status = true;
+    aux.id=lista.size()+1;
 
-    aux.id ++;
-
-    cout << "Dados cadastrados com Sucesso!\n";
-    cout << endl;
+    cout << "Dados cadastrados com Sucesso!\n\n";
 
     lista.push_back(aux);
 }
 
 void listar_registros_grupo(list<dados> lista){
     cout << "Digite o Grupo desejado (M - F - PP - P - M - G - GG):";
-    char categoria;
+    string categoria;
     cin >> categoria;
 }
 
@@ -77,14 +72,24 @@ void excluir_registro(list<dados> &lista){
 void listar_registros(list<dados> lista){
     // Fazer uma tabela para mostrar os dados;
     dados mostra;
-    for(auto it=lista.begin(); it!=lista.end(); it++){
-        if(mostra.status==true){
-            cout << mostra.id << " " << mostra.produto << " " << mostra.genero << " " << mostra.tamanho << endl;
+    if(lista.empty()){
+		cout<<"Lista está vazia";
+		return;
+	}
+	for(auto it=lista.begin(); it!=lista.end(); it++){
+        if(it->status==true){
+			cout<<"===========================================================\n"
+            	<<"Id:\t\t"		<< it->id 		<<"\n"
+				<< "Produto:\t" << it->produto 	<< "\n"
+				<< "Genero:\t\t"	<< it->genero  	<< "\n"
+				<< "Tamanho:\t" << it->tamanho 	<< "\n";
         }
-        else if(lista.size()==0) cout << "Lista vazia\n";
+		cout<<"===========================================================\n";
+
         // remoção lógica (bolar teste para saber se a lista está toda "excluída")
     }
 }
+
 int main(){
 
     list<dados> lista;
@@ -104,6 +109,9 @@ int main(){
             case 4:
                 listar_registros(lista);
                 break;
+			default:
+				cout<<"Digite um valor entre 0 e 5 de acordo com as opcoes informadas.\n\n";
+				break;
 
         }
     }while(op!=0);
