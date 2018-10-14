@@ -38,9 +38,15 @@ void incluir(list<dados> &lista){
     cin >> aux.genero;
     cout << "Digite o tamanho da peca (PP, P, M, G, GG): ";
     cin >> aux.tamanho;
+<<<<<<< HEAD
 
     aux.id=lista.size()+1;
 
+=======
+
+    aux.id=lista.size()+1;
+
+>>>>>>> a8b120bae1fbb593dbf977b06dfa551c328df81d
     cout << "Dados cadastrados com Sucesso!\n\n";
 
     lista.push_back(aux);
@@ -143,6 +149,7 @@ void listar_registros(list<dados> lista){
         }
 		cout<<"===========================================================\n";
 
+<<<<<<< HEAD
     }
 }
 
@@ -192,6 +199,12 @@ void abrir_arquivo(list<dados>& lista){
     entrada.close();
 }
 
+=======
+        // remoção lógica (bolar teste para saber se a lista está toda "excluída")
+    }
+}
+
+>>>>>>> a8b120bae1fbb593dbf977b06dfa551c328df81d
 int main(){
 
     list<dados> lista;
@@ -219,9 +232,12 @@ int main(){
 			default:
 				cout<<"Digite um valor entre 0 e 5 de acordo com as opcoes informadas.\n\n";
 				break;
+<<<<<<< HEAD
             case 6:
                 salvar_sair(lista);
                 break;
+=======
+>>>>>>> a8b120bae1fbb593dbf977b06dfa551c328df81d
 
         }
     }while(op!=0);
