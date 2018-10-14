@@ -1,6 +1,8 @@
 #include<iostream>
 #include<list>
 #include<fstream>
+#include<cctype>
+#include <algorithm>
 
 using namespace std;
 
@@ -18,6 +20,7 @@ int menu(){
 
 }
 
+
 struct dados{
     int id;
     string produto;
@@ -27,26 +30,50 @@ struct dados{
 
 };
 
-void incluir(list<dados> &lista){
-    // Deixar incluir maiúsculo e minúsculo (mostrar sempre maiúsculo) Tamanho e gênero
+string maiusculo(string s){
+    for(int i=0;i<s.size();i++)
+        s[i]=toupper(s[i]);
+    return s;
+}
 
+void incluir(list<dados> &lista){
+    string tamanhos[]={"PP","P","M","G","GG"};
+
+    // Deixar incluir maiúsculo e minúsculo (mostrar sempre maiúsculo) Tamanho e gênero
+    bool existe;
     dados aux;
+
     cout << "Digite o nome do produto: ";
 	cin.ignore();
     getline(cin,aux.produto);
+    aux.produto=maiusculo(aux.produto);
+
+    do{
     cout << "Digite o genero (Masculino (M) / Feminino (F)): ";
     cin >> aux.genero;
+    aux.genero=toupper(aux.genero);
+    }while(!(aux.genero=='M'^aux.genero=='F'));
+
+    do{
     cout << "Digite o tamanho da peca (PP, P, M, G, GG): ";
     cin >> aux.tamanho;
-<<<<<<< HEAD
+    aux.tamanho=maiusculo(aux.tamanho);
+    }while(!any_of(begin(tamanhos), end(tamanhos), [&](string i) { return aux.tamanho == i; }));
 
-    aux.id=lista.size()+1;
+    do{
+        existe=false;
+        cout <<"Digite a ID do produto: ";
+        cin>> aux.id;
+        for(auto it=lista.begin(); it!=lista.end(); it++){
+            if(it->id==aux.id){
+                existe=true;
+                cout<<"ID ja cadastrado!\n";
+                break;
+            }
+        }
+    }while(existe);
 
-=======
 
-    aux.id=lista.size()+1;
-
->>>>>>> a8b120bae1fbb593dbf977b06dfa551c328df81d
     cout << "Dados cadastrados com Sucesso!\n\n";
 
     lista.push_back(aux);
@@ -149,7 +176,6 @@ void listar_registros(list<dados> lista){
         }
 		cout<<"===========================================================\n";
 
-<<<<<<< HEAD
     }
 }
 
@@ -199,12 +225,8 @@ void abrir_arquivo(list<dados>& lista){
     entrada.close();
 }
 
-=======
         // remoção lógica (bolar teste para saber se a lista está toda "excluída")
-    }
-}
 
->>>>>>> a8b120bae1fbb593dbf977b06dfa551c328df81d
 int main(){
 
     list<dados> lista;
@@ -230,17 +252,14 @@ int main(){
                 listar_registros(lista);
                 break;
 			default:
-				cout<<"Digite um valor entre 0 e 5 de acordo com as opcoes informadas.\n\n";
+				cout<<"Digite um valor entre 1 e 6 de acordo com as opcoes informadas.\n\n";
 				break;
-<<<<<<< HEAD
             case 6:
                 salvar_sair(lista);
                 break;
-=======
->>>>>>> a8b120bae1fbb593dbf977b06dfa551c328df81d
 
         }
-    }while(op!=0);
+    }while(op!=6);
 
 
 
