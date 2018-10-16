@@ -4,8 +4,6 @@
 #include<cctype>
 #include <algorithm>
 
-using namespace std;
-
 int menu(){
     int op;
     cout << "1- Incluir novo registro\n";
@@ -20,14 +18,12 @@ int menu(){
 
 }
 
-
 struct dados{
     int id;
     string produto;
-    char genero;
+    string genero;
     string tamanho;
     bool status=true;
-
 };
 
 string maiusculo(string s){
@@ -37,11 +33,9 @@ string maiusculo(string s){
 }
 
 void incluir(list<dados> &lista){
-    string tamanhos[]={"PP","P","M","G","GG"};
-
     // Deixar incluir maiúsculo e minúsculo (mostrar sempre maiúsculo) Tamanho e gênero
-    bool existe;
     dados aux;
+    bool existe;
 
     cout << "Digite o nome do produto: ";
 	cin.ignore();
@@ -49,34 +43,34 @@ void incluir(list<dados> &lista){
     aux.produto=maiusculo(aux.produto);
 
     do{
-    cout << "Digite o genero (Masculino (M) / Feminino (F)): ";
-    cin >> aux.genero;
-    aux.genero=toupper(aux.genero);
-    }while(!(aux.genero=='M'^aux.genero=='F'));
+            cout << "Digite o genero (Masculino (M) / Feminino (F)): ";
+            cin >> aux.genero;
+            aux.genero=maiusculo(aux.genero);
+        }while(!(aux.genero=="M"^aux.genero=="F"));
+
+        string tamanhos[]={"PP","P","M","G","GG"};
+        do{
+            cout << "Tamanho(Apenas os tamanhos PP, P, M, G, GG serao aceitos): ";
+            cin >> aux.tamanho;
+            aux.tamanho=maiusculo(aux.tamanho);
+        }while(!any_of(begin(tamanhos), end(tamanhos), [&](string i) { return aux.tamanho == i; }));
 
     do{
-    cout << "Digite o tamanho da peca (PP, P, M, G, GG): ";
-    cin >> aux.tamanho;
-    aux.tamanho=maiusculo(aux.tamanho);
-    }while(!any_of(begin(tamanhos), end(tamanhos), [&](string i) { return aux.tamanho == i; }));
-
-    do{
-        existe=false;
-        cout <<"Digite a ID do produto: ";
-        cin>> aux.id;
-        for(auto it=lista.begin(); it!=lista.end(); it++){
-            if(it->id==aux.id){
-                existe=true;
-                cout<<"ID ja cadastrado!\n";
-                break;
+            existe=false;
+            cout <<"Digite a ID do produto: ";
+            cin>> aux.id;
+            for(auto it=lista.begin();it!=lista.end();it++){
+                if(it->id==aux.id){
+                    existe=true;
+                    cout<<"ID ja cadastrado!\n";
+                    break;
+                }
             }
-        }
-    }while(existe);
+        }while(existe);
 
-
-    cout << "Dados cadastrados com Sucesso!\n\n";
-
+    cout<<aux.id;
     lista.push_back(aux);
+    cout << "Dados cadastrados com Sucesso!\n\n";
 }
 
 void alterar_registro(list<dados>& lista){
@@ -128,12 +122,6 @@ void alterar_registro(list<dados>& lista){
     }
 
 
-void listar_registros_grupo(list<dados> lista){
-    cout << "Digite o Grupo desejado (M - F - PP - P - M - G - GG):";
-    string categoria;
-    cin >> categoria;
-}
-
 void excluir_registro(list<dados> &lista){
     cin.ignore();
     cout << "Digite o nome do item a ser excluido: ";
@@ -174,9 +162,9 @@ void listar_registros(list<dados> lista){
 				<< "Genero:\t\t"	<< it->genero  	<< "\n"
 				<< "Tamanho:\t" << it->tamanho 	<< "\n";
         }
-		cout<<"===========================================================\n";
 
     }
+    cout<<"===========================================================\n";
 }
 
 bool salvar_sair(list<dados> lista){
@@ -193,8 +181,7 @@ bool salvar_sair(list<dados> lista){
         arquivo << it->id << endl;
         arquivo << it->produto << endl;
         arquivo << it->genero << endl;
-        arquivo << it->tamanho << endl;
-        arquivo << "\n";
+        arquivo << it->tamanho << "\n\n";
     }
     cout << "              " << "Arquivo gerado com sucesso!\n";
     arquivo.close();
@@ -251,12 +238,13 @@ int main(){
             case 4:
                 listar_registros(lista);
                 break;
-			default:
-				cout<<"Digite um valor entre 1 e 6 de acordo com as opcoes informadas.\n\n";
-				break;
             case 6:
                 salvar_sair(lista);
                 break;
+			default:
+				cout<<"Digite um valor entre 1 e 6 de acordo com as opcoes informadas.\n\n";
+				break;
+
 
         }
     }while(op!=6);

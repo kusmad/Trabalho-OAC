@@ -1,0 +1,89 @@
+#include<iostream>
+#include<list>
+#include<cctype>
+#include <algorithm>
+using namespace std;
+struct dados{
+    int id;
+    string produto;
+    string genero;
+    string tamanho;
+    bool status=true;
+};
+
+string maiusculo(string s){
+    for(int i=0;i<s.size();i++)
+        s[i]=toupper(s[i]);
+    return s;
+}
+
+void consiste(list<dados> l,dados &aux,char op){
+    string tamanhos[]={"PP","P","M","G","GG"};
+    bool existe;
+    switch(op){
+    case 'g':
+        do{
+            cout << "Digite o genero (Masculino (M) / Feminino (F)): ";
+            cin >> aux.genero;
+            aux.genero=maiusculo(aux.genero);
+        }while(!(aux.genero=="M"^aux.genero=="F"));
+    break;
+
+    case 't':
+        do{
+            cout << "Tamanho(Apenas os tamanhos PP, P, M, G, GG serao aceitos): ";
+            cin >> aux.tamanho;
+            aux.tamanho=maiusculo(aux.tamanho);
+        }while(!any_of(begin(tamanhos), end(tamanhos), [&](string i) { return aux.tamanho == i; }));
+    break;
+
+    case 'i':
+        do{
+            existe=false;
+            cout <<"Digite a ID do produto: ";
+            cin>> aux.id;
+            if(aux.id<0){
+                cout<<"\nApenas valores positivos sao validos\n\n";
+            }
+            for(auto it=l.begin();it!=l.end();it++){
+                if(it->id==aux.id){
+                    existe=true;
+                    cout<<"ID ja cadastrado!\n";
+                    break;
+                }
+            }
+        }while(existe||aux.id<0);
+        break;
+    case 'n':
+        cout << "Digite o nome do produto: ";
+        cin.ignore();
+        getline(cin,aux.produto);
+        aux.produto=maiusculo(aux.produto);
+        break;
+    }
+}
+
+void altera_valores(list<dados>l,dados &item){
+    int op;
+
+    cout <<"Nome: "<<item.produto<<endl
+         <<"Tamanho: "<<item.tamanho<<endl
+         <<"Genero: "<<item.genero<<"\n\n"
+         << "Qual valor desseja alterar ?\n"
+         << "1 - Nome do produto\n"
+         << "2 - Genero\n"
+         << "3 - Tamanho\n";
+    cin>>op;
+    switch(op){
+    case 1:
+        consiste(l,item,'n');
+        break;
+    case 2:
+        consiste(l,item,'g');
+        break;
+    case 3:
+        consiste(l,item,'t');
+        break;
+    }
+    cout<<"Alterado com sucesso\n\n";
+    }
