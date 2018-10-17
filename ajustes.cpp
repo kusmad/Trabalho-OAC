@@ -1,7 +1,8 @@
-#include<iostream>
-#include<list>
-#include<cctype>
+#include <iostream>
+#include <list>
+#include <cctype>
 #include <algorithm>
+#include <iomanip>
 using namespace std;
 struct dados{
     int id;
@@ -9,6 +10,7 @@ struct dados{
     string genero;
     string tamanho;
     bool status=true;
+    float preco;
 };
 
 string maiusculo(string s){
@@ -60,6 +62,12 @@ void consiste(list<dados> l,dados &aux,char op){
         getline(cin,aux.produto);
         aux.produto=maiusculo(aux.produto);
         break;
+    case 'p':
+        do{
+            cout<<"Digite o preco: R$";
+            cin>>aux.preco;
+        }while(aux.preco<0);
+        break;
     }
 }
 
@@ -67,12 +75,14 @@ void altera_valores(list<dados>l,dados &item){
     int op;
 
     cout <<"Nome: "<<item.produto<<endl
+         <<"Genero: "<<item.genero<<endl
          <<"Tamanho: "<<item.tamanho<<endl
-         <<"Genero: "<<item.genero<<"\n\n"
+         <<"Preco: R$"<<fixed<<setprecision(2)<<item.preco<<"\n\n"
          << "Qual valor desseja alterar ?\n"
          << "1 - Nome do produto\n"
          << "2 - Genero\n"
-         << "3 - Tamanho\n";
+         << "3 - Tamanho\n"
+         << "4 - Preco\n";
     cin>>op;
     switch(op){
     case 1:
@@ -84,6 +94,8 @@ void altera_valores(list<dados>l,dados &item){
     case 3:
         consiste(l,item,'t');
         break;
+    case 4:
+        consiste(l,item,'p');
     }
     cout<<"Alterado com sucesso\n\n";
     }

@@ -13,10 +13,11 @@ bool salvar_sair(list<dados> lista){
         return 0;
     }
     for(auto it=lista.begin(); it!=lista.end(); it++){
-        arquivo << it->id << endl;
-        arquivo << it->produto << endl;
-        arquivo << it->genero << endl;
-        arquivo << it->tamanho << "\n\n";
+        arquivo << it->id << endl
+                << it->produto << endl
+                << it->genero << endl
+                << it->tamanho << endl
+                << it->preco <<"\n\n";
     }
     cout << "              " << "Arquivo gerado com sucesso!\n";
     arquivo.close();
@@ -40,6 +41,7 @@ void abrir_arquivo(list<dados>& lista){
         entrada >> linha.produto;
         entrada >> linha.genero;
         entrada >> linha.tamanho;
+        entrada >> linha.preco;
         lista.push_back(linha);
         break;
     }
