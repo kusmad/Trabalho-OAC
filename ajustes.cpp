@@ -8,7 +8,7 @@
 using namespace std;
 struct dados{
     int id;
-    char produto[40], tamanho[2], genero;
+    char produto[40], genero[5],tamanho[5];
     bool status=true;
     float preco;
 };
@@ -28,16 +28,16 @@ string conv_str(char s[]){
 }
 
 void consiste(list<dados> l,dados &aux,char op){
+    char genr;
     string str;
     bool existe;
     switch(op){
     case 'g':
         do{
             cout << "Digite o genero (Masculino (M) / Feminino (F)): ";
-            cin>>aux.genero;
-            aux.genero=toupper(aux.genero);
-            cout<<aux.genero<<endl;
-        }while(!(aux.genero=='M'^aux.genero=='F'));
+            gets(aux.genero);
+            aux.genero[0]=toupper(aux.genero[0]);
+            }while(!(aux.genero[0]=='M'^aux.genero[0]=='F'));
     break;
 
     case 't':
