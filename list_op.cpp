@@ -29,6 +29,14 @@ void incluir(list<dados>&l){
     consiste(l,dado,'g');
     consiste(l,dado,'t');
     consiste(l,dado,'p');
-    l.push_back(dado);
+    if(l.empty()||l.back().id<dado.id)
+        l.push_back(dado);
+    else
+        if(l.front().id>dado.id)
+            l.push_front(dado);
+        else
+            for(auto it=l.begin();it!=l.end();it++)
+                if(it->id>dado.id)
+                    l.insert(it,dado);
     cout<<"\nInserido com sucesso.\n";
 }
