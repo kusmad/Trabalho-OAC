@@ -3,40 +3,51 @@
 #include <cctype>
 #include <algorithm>
 #include <iomanip>
+#include <string.h>
+
 using namespace std;
 struct dados{
     int id;
-    string produto;
-    string genero;
-    string tamanho;
+    char produto[40], tamanho[2], genero;
     bool status=true;
     float preco;
 };
 
-string maiusculo(string s){
-    for(int i=0;i<s.size();i++)
+void maiusculo(char s[]){
+    for(int i=0;i<strlen(s);i++){
         s[i]=toupper(s[i]);
+    }
+
+}
+
+string conv_str(char s[]){
+    string str=" ";
+    for(int i=0;i<=strlen(s);i++)
+        str[i]=s[i];
     return s;
 }
 
 void consiste(list<dados> l,dados &aux,char op){
-    string tamanhos[]={"PP","P","M","G","GG"};
+    string str;
     bool existe;
     switch(op){
     case 'g':
         do{
             cout << "Digite o genero (Masculino (M) / Feminino (F)): ";
-            cin >> aux.genero;
-            aux.genero=maiusculo(aux.genero);
-        }while(!(aux.genero=="M"^aux.genero=="F"));
+            cin>>aux.genero;
+            aux.genero=toupper(aux.genero);
+            cout<<aux.genero<<endl;
+        }while(!(aux.genero=='M'^aux.genero=='F'));
     break;
 
     case 't':
         do{
             cout << "Tamanho(Apenas os tamanhos PP, P, M, G, GG serao aceitos): ";
-            cin >> aux.tamanho;
-            aux.tamanho=maiusculo(aux.tamanho);
-        }while(!any_of(begin(tamanhos), end(tamanhos), [&](string i) { return aux.tamanho == i; }));
+            fflush(stdin);
+            gets(aux.tamanho);
+            maiusculo(aux.tamanho);
+            str=conv_str(aux.tamanho);
+        }while(!(str=="PP"^str=="P"^str=="M"^str=="G"^str=="GG"));
     break;
 
     case 'i':
@@ -58,9 +69,9 @@ void consiste(list<dados> l,dados &aux,char op){
         break;
     case 'n':
         cout << "Digite o nome do produto: ";
-        cin.ignore();
-        getline(cin,aux.produto);
-        aux.produto=maiusculo(aux.produto);
+        fflush(stdin);
+        gets(aux.produto);
+        maiusculo(aux.produto);
         break;
     case 'p':
         do{
