@@ -35,6 +35,7 @@ void consiste(list<dados> l,dados &aux,char op){
     case 'g':
         do{
             cout << "Digite o genero (Masculino (M) / Feminino (F)): ";
+            fflush(stdin);
             gets(aux.genero);
             aux.genero[0]=toupper(aux.genero[0]);
             }while(!(aux.genero[0]=='M'^aux.genero[0]=='F'));

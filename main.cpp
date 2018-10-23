@@ -35,11 +35,8 @@ do{
         cout<<"Qual o id do produto que deseja alterar?\n";
         cin>>id;
         for(auto it=l.begin();it!=l.end();it++)
-            if(it->id==id){
+            if(it->id==id)
                 altera_valores(l,*it);
-            }
-            else
-                cout<<"\nValor nao encontrado\n";
         break;
 case 3:
     //função de exclusão
