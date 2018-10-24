@@ -39,7 +39,7 @@ do{
                 altera_valores(l,*it);
         break;
 case 3:
-    //função de exclusão
+    exclui(l);
     break;
 case 4:
     listar_registros(l);

@@ -40,3 +40,26 @@ void incluir(list<dados>&l){
                     l.insert(it,dado);
     cout<<"\nInserido com sucesso.\n";
 }
+
+void exclui(list<dados> &l){
+    dados dado;
+    int id,op;
+    cout<<"Qual a id do produto que deseja remover?\n";
+    cin>> id;
+    for(auto it=l.begin();it!=l.end();it++)
+            if(it->id==id){
+                cout<< "\nProduto:\t"  << it->produto 	<< "\n"
+                    <<"Preco: \t\tR$"<<fixed<<setprecision(2)<<it->preco<<"\n"
+                    << "Genero:\t\t" << it->genero  	<< "\n"
+                    << "Tamanho:\t"  << it->tamanho 	<< "\n\n"
+                    << "\nDeseja realmente remover?(1- Sim | 0- Nao): ";
+            cin>>op;
+            if(op==1){
+                l.erase(it);
+                cout<<"Excluido com sucesso.\n";
+            }
+            if(op==0)
+                cout<<"Exclusao cancelada.\n";
+            break;
+            }
+}
