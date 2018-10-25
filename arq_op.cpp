@@ -1,15 +1,8 @@
 #include<iostream>
 #include<list>
 #include<fstream>
-//
-//using namespace std;
-//
-//struct dados{
-//    int id;
-//    char produto[40], genero[5],tamanho[5];
-//    bool status=true;
-//    float preco;
-//};
+
+using namespace std;
 
 void abrir_arquivo(list<dados>&lista){
     ifstream Finp;

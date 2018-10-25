@@ -25,102 +25,110 @@ void listar_registros(list<dados>& l){
     cout<<"===========================================================\n";
 }
 
-bool exibe(list<dados> l, string s1, int cod){
-    for(auto it=l.begin(); it!=l.end(); it++){
-            string s2;
-            if(cod == 1) s2 = conv_str(it->tamanho);
-            else if(cod  == 2) s2 = conv_str(it->genero);
-            else if(cod  == 3) s2 = conv_str(it->produto);
-
-            if(s1 == s2){
-                    cout<<"===========================================================\n"
-                    <<"Id:\t\t"		<< it->id 		<<"\n"
-                    << "Produto:\t" << it->produto 	<< "\n"
-                    <<"Preco: \t\tR$"<<fixed<<setprecision(2)<<it->preco<<"\n"
-                    << "Genero:\t\t"	<< it->genero  	<< "\n"
-                    << "Tamanho:\t" << it->tamanho 	<< "\n";
-                    }
-                cout<<"===========================================================\n";
-            }
-            return 0;
+void exibe(dados item){
+    cout <<"\nNome: "<<item.produto<<endl
+         <<"Genero: "<<item.genero<<endl
+         <<"Tamanho: "<<item.tamanho<<endl
+         <<"Preco: R$"<<fixed<<setprecision(2)<<item.preco<<"\n\n";
 }
+
+bool comp_preco_dec(dados a,dados b){return a.preco>b.preco; }
+
+bool comp_preco_cres(dados a,dados b){return a.preco<b.preco; }
+
+bool comp_nome_dec(dados a,dados b){return (strcmp(a.produto,b.produto)>0);}
+
+bool comp_nome_cres(dados a,dados b){return (strcmp(a.produto,b.produto)<0);}
 
 bool listar_registros_grupo(list<dados> l){
     if(l.empty()){
         cout << "lista vazia\n\n";
         return 0;
     }
-
-    cout << "Filtrar por: \n\n";
-    cout << "1- Tamanho\n";
-    cout << "2- Genero\n";
-    cout << "3- Produto\n";
-
     int op;
-
-    cin >> op;
-
-    switch(op){
-
-
-        case 1:{
-            char ftam[5];
-            cout << "Digite o tamanho desejado ( PP, P, M, G, GG ): ";
-            fflush(stdin);
-            gets(ftam);
-            maiusculo(ftam);
-            string s1 = conv_str(ftam);
-            exibe(l, s1, 1);
+    bool mostrou=false;
+    dados dado;
+    cout << "Filtrar por: \n\n"
+         << "1- Tamanho\n"
+         << "2- Genero\n"
+         << "3- Produto ordem Crescente\n"
+         << "4- Produto ordem Decrescente\n"
+         << "5- Preco ordem Crescente\n"
+         << "6- Preco ordem Decrescente\n\n";
+        do{
+        cin>>op;
+        switch(op){
+        case 1:
+            consiste(l,dado,'t');
+            for(auto item:l)
+            if(strcmp(dado.tamanho, item.tamanho) == 0){
+                mostrou = true;
+                exibe(item);
+            }
             break;
-        }
 
-
-        case 2:{
-            char gen[5];
-            cout << "Digite o nome do Genero (M = Masculino / F = Feminino)\n";
-            fflush(stdin);
-            gets(gen);
-            maiusculo(gen);
-            string s1 = conv_str(gen);
-            exibe(l, s1, 2);
+        case 2:
+            consiste(l,dado,'g');
+            for(auto item:l)
+                if(strcmp(dado.genero,item.genero)==0){
+                    mostrou=true;
+                    exibe(item);
+                }
             break;
-        }
 
         case 3:
-            char nprod[40];
-            cout << "Digite o nome do produto que deseja buscar: ";
-            fflush(stdin);
-            gets(nprod);
-            maiusculo(nprod);
-            string s1 = conv_str(nprod);
-            exibe(l, s1, 3);
+            l.sort(comp_nome_cres);
             break;
-    }
+
+        case 4:
+            l.sort(comp_nome_dec);
+            break;
+
+        case 5:
+            l.sort(comp_preco_cres);
+            break;
+
+        case 6:
+            l.sort(comp_preco_dec);
+            break;
+
+        default:
+            cout<<"\nOpcao invalida.\n";
+        }
+        }while(op<1 || op >6);
+
+        if(op!=1&&op!=2)
+            for(auto item:l){
+                mostrou=true;
+                exibe(item);
+        }
+        if(!mostrou){
+            cout<<"\nNao foram encontrados valores no filtro desejado\n\n";
+        }
+
 }
 
-bool excluir (list<dados> &l){
-    if(l.empty()) {
-        cout << "Lista vazia!\n\n";
-        return 0;
-    }
-
-    bool flag =1;
-
-        cout << "Digite o ID do produto que deseja excluir: ";
-        int ident;
-        cin >> ident;
-
-        for(auto it=l.begin(); it!=l.end(); it++){
-            if(it->id == ident){
+void excluir(list<dados> &l){
+    dados dado;
+    int id,op;
+    cout<<"Qual a id do produto que deseja remover?\n";
+    cin>> id;
+    for(auto it=l.begin();it!=l.end();it++)
+            if(it->id==id){
+                cout<< "\nProduto:\t"  << it->produto 	<< "\n"
+                    <<"Preco: \t\tR$"<<fixed<<setprecision(2)<<it->preco<<"\n"
+                    << "Genero:\t\t" << it->genero  	<< "\n"
+                    << "Tamanho:\t"  << it->tamanho 	<< "\n\n"
+                    << "\nDeseja realmente remover?(1- Sim | 0- Nao): ";
+            cin>>op;
+            if(op==1){
                 l.erase(it);
-                flag =0;
-                cout << "Item excluido\n\n";
-                return 0;
-                }
+                cout<<"Excluido com sucesso.\n";
             }
-        if(flag==1) cout << "Item nao encontrado\n\n";
-
-        return 0;
+            if(op==0)
+                cout<<"Exclusao cancelada.\n";
+            break;
+            }
 }
 
 void incluir(list<dados>&l){
